@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Sistem Pengaturan Jadwal Pelayanan
+        Jemaat GMIT Efata SoE
+    </title>
+
+    <meta name="description"
+          content="Sistem Pengaturan Jadwal Pelayanan Jemaat GMIT Efata SoE">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    rgba(20, 25, 30, 0.72),
+                    rgba(20, 25, 30, 0.72)
+                ),
+                linear-gradient(
+                    135deg,
+                    #d8d8d8,
+                    #8e8e8e
+                );
+
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+
+            text-align: center;
+
+            padding: 45px 30px;
+
+            background: rgba(255,255,255,0.12);
+
+            border: 1px solid rgba(255,255,255,0.25);
+
+            border-radius: 25px;
+
+            backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.35);
+        }
+
+        .logo {
+            width: 110px;
+            height: 110px;
+
+            margin: 0 auto 25px;
+
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(255,255,255,0.15);
+
+            border: 2px solid rgba(255,255,255,0.4);
+
+            font-size: 18px;
+            font-weight: bold;
+
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .church {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 30px;
+            line-height: 1.3;
+
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            line-height: 1.6;
+
+            opacity: 0.9;
+
+            margin-bottom: 35px;
+        }
+
+        .loader {
+            width: 45px;
+            height: 45px;
+
+            margin: 0 auto 20px;
+
+            border: 4px solid rgba(255,255,255,0.25);
+
+            border-top: 4px solid white;
+
+            border-radius: 50%;
+
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        .loading {
+            font-size: 14px;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 25px;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 13px 28px;
+
+            border-radius: 30px;
+
+            background: white;
+
+            color: #333;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.35);
+        }
+
+        .footer {
+            margin-top: 35px;
+
+            font-size: 12px;
+
+            opacity: 0.7;
+        }
+
+        @media(max-width:500px) {
+
+            .container {
+                padding: 35px 20px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            .church {
+                font-size: 17px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <!--
+        Jika nanti ingin menggunakan logo GMIT,
+        masukkan file logo ke repository lalu
+        ganti bagian ini dengan:
+
+        <img src="logo-gmit.png" alt="Logo GMIT">
+        -->
+
+        GMIT
+    </div>
+
+    <div class="church">
+        JEMAAT GMIT EFATA SOE
+    </div>
+
+    <h1>
+        SISTEM PENGATURAN<br>
+        JADWAL PELAYANAN JEMAAT
+    </h1>
+
+    <div class="subtitle">
+        Sistem informasi pengaturan dan pemantauan
+        jadwal pelayanan Jemaat GMIT Efata SoE.
+    </div>
+
+    <div class="loader"></div>
+
+    <div class="loading">
+        Membuka sistem...
+    </div>
+
+    <a
+        class="button"
+        href="https://script.google.com/macros/s/AKfycbyPJY21t-CbnE11Y_E_p86N9q6VG9U1HHOC-uTj4Tb2dzC2n400zHDDUvJ6ZVVFgDNY/exec"
+    >
+        BUKA SISTEM
+    </a>
+
+    <div class="footer">
+        Jemaat GMIT Efata SoE
+    </div>
+
+</div>
+
+
+<script>
+
+    const appURL =
+        "https://script.google.com/macros/s/AKfycbyPJY21t-CbnE11Y_E_p86N9q6VG9U1HHOC-uTj4Tb2dzC2n400zHDDUvJ6ZVVFgDNY/exec";
+
+    /*
+     * Redirect otomatis setelah 2 detik.
+     *
+     * Jika ingin langsung tanpa jeda,
+     * ubah 2000 menjadi 0.
+     */
+
+    setTimeout(function() {
+
+        window.location.href = appURL;
+
+    }, 2000);
+
+</script>
+
+</body>
+</html>
