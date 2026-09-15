@@ -1,415 +1,1056 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-  <title>SIMPEL EFATA | Jemaat GMIT Efata SoE</title>
+    <!-- WAJIB untuk tampilan HP/tablet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="description"
-    content="SIMPEL EFATA - Sistem Manajemen Penjadwalan Pelayanan Jemaat GMIT Efata SoE">
+    <title>SIMPEL EFATA</title>
 
-  <style>
-    :root{
-      --blue:#075fc9;
-      --blue2:#0a3f91;
-      --blue3:#19a7e8;
-      --gold:#f5b400;
-      --gold2:#ffca28;
-      --white:#fff;
-      --navy:#092d68;
-      --muted:#61738d;
-    }
+    <meta name="description"
+          content="Sistem Manajemen Penjadwalan Pelayanan Jemaat GMIT Efata SoE">
 
-    *{box-sizing:border-box;margin:0;padding:0}
+    <style>
 
-    html,body{min-height:100%;width:100%}
+        /* =========================================================
+           RESET
+        ========================================================= */
 
-    body{
-      min-height:100vh;
-      font-family:"Segoe UI",Arial,sans-serif;
-      color:var(--navy);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      background:
-        linear-gradient(135deg,rgba(3,35,86,.86),rgba(7,95,201,.48)),
-        url("assets/background-gereja.jpg") center/cover no-repeat fixed;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    .portal{
-      width:min(1120px,100%);
-      min-height:680px;
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      overflow:hidden;
-      border-radius:32px;
-      background:rgba(255,255,255,.96);
-      box-shadow:0 30px 90px rgba(0,20,60,.42);
-      border:1px solid rgba(255,255,255,.7);
-    }
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
-    /* PANEL KIRI */
-    .visual{
-      position:relative;
-      padding:44px 45px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      overflow:hidden;
 
-      background:
-        radial-gradient(circle at 15% 10%,rgba(25,167,232,.14),transparent 32%),
-        linear-gradient(145deg,#eef7ff,#ffffff 72%);
-    }
+        /* =========================================================
+           BACKGROUND
+        ========================================================= */
 
-    .visual:before{
-      content:"";
-      position:absolute;
-      width:520px;
-      height:520px;
-      border-radius:50%;
-      border:42px solid rgba(7,95,201,.045);
-      left:-270px;
-      bottom:-260px;
-    }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
 
-    .visual:after{
-      content:"";
-      position:absolute;
-      width:380px;
-      height:380px;
-      border-radius:50%;
-      border:28px solid rgba(245,180,0,.055);
-      right:-220px;
-      top:-210px;
-    }
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(4, 31, 65, 0.88),
+                    rgba(0, 68, 130, 0.78)
+                ),
+                url("assets/background-gereja.jpg");
 
-    .visual-content{
-      position:relative;
-      z-index:2;
-      width:100%;
-      max-width:470px;
-    }
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
 
-    /* LOGO GEREJA */
-    .church-logo{
-      width:78px;
-      height:78px;
-      object-fit:contain;
-      margin:0 auto 12px;
-      display:block;
-    }
+            z-index: -2;
+        }
 
-    .church-name{
-      color:var(--blue2);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:2px;
-      margin-bottom:15px;
-    }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
 
-    /* LOGO APLIKASI */
-    .app-logo{
-      width:min(100%,430px);
-      max-height:445px;
-      object-fit:contain;
-      display:block;
-      margin:0 auto;
-      filter:drop-shadow(0 15px 22px rgba(5,55,125,.14));
-    }
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(255, 193, 7, 0.18),
+                    transparent 35%
+                );
 
-    .gold-line{
-      width:125px;
-      height:5px;
-      border-radius:20px;
-      margin:17px auto 0;
-      background:linear-gradient(90deg,var(--blue),var(--gold));
-    }
+            z-index: -1;
+            pointer-events: none;
+        }
 
-    /* PANEL KANAN */
-    .access{
-      position:relative;
-      display:flex;
-      align-items:center;
-      padding:60px 55px;
-      background:linear-gradient(155deg,#ffffff 0%,#f2f7fd 100%);
-    }
 
-    .access-content{
-      width:100%;
-      max-width:420px;
-      margin:auto;
-    }
+        /* =========================================================
+           MAIN CONTAINER
+        ========================================================= */
 
-    .status{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 13px;
-      border-radius:30px;
-      background:#eaf4ff;
-      color:var(--blue);
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:1.3px;
-      text-transform:uppercase;
-      margin-bottom:20px;
-    }
+        .page {
+            min-height: 100vh;
 
-    .status-dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:#21a65a;
-      box-shadow:0 0 8px rgba(33,166,90,.45);
-    }
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    h1{
-      color:var(--blue2);
-      font-size:clamp(30px,4vw,46px);
-      line-height:1.05;
-      letter-spacing:-1px;
-      margin-bottom:16px;
-      font-weight:850;
-    }
+            padding: 40px 24px;
+        }
 
-    .lead{
-      color:var(--muted);
-      font-size:15px;
-      line-height:1.8;
-      margin-bottom:28px;
-    }
 
-    .highlight{
-      color:var(--blue);
-      font-weight:800;
-    }
+        .container {
+            width: 100%;
+            max-width: 1180px;
 
-    .button{
-      width:100%;
-      min-height:60px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:14px;
-      border-radius:17px;
-      text-decoration:none;
-      color:white;
-      background:linear-gradient(135deg,var(--blue2),var(--blue),var(--blue3));
-      box-shadow:0 14px 30px rgba(7,95,201,.28);
-      font-size:16px;
-      font-weight:850;
-      transition:.25s ease;
-    }
+            display: grid;
+            grid-template-columns: 1fr 1fr;
 
-    .button:hover{
-      transform:translateY(-3px);
-      box-shadow:0 19px 38px rgba(7,95,201,.38);
-    }
+            background: rgba(255, 255, 255, 0.10);
 
-    .arrow{
-      font-size:23px;
-      transition:.25s ease;
-    }
+            border: 1px solid rgba(255, 255, 255, 0.22);
 
-    .button:hover .arrow{transform:translateX(5px)}
+            border-radius: 28px;
 
-    .features{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:9px;
-      margin-top:25px;
-    }
+            overflow: hidden;
 
-    .feature{
-      padding:13px 8px;
-      border-radius:13px;
-      background:#edf5fd;
-      color:#5c718b;
-      text-align:center;
-      font-size:10px;
-      line-height:1.45;
-    }
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.35);
 
-    .feature strong{
-      display:block;
-      color:var(--blue2);
-      font-size:11px;
-      margin-bottom:3px;
-    }
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
 
-    .footer{
-      margin-top:30px;
-      padding-top:18px;
-      border-top:1px solid #dce7f2;
-      color:#7b8ea4;
-      font-size:11px;
-      line-height:1.7;
-    }
 
-    .footer strong{color:#536b85}
+        /* =========================================================
+           LEFT PANEL
+        ========================================================= */
 
-    @media(max-width:820px){
-      body{
-        padding:12px;
-        background-attachment:scroll;
-      }
+        .visual-panel {
+            min-height: 650px;
 
-      .portal{
-        grid-template-columns:1fr;
-        min-height:auto;
-        border-radius:25px;
-      }
+            display: flex;
+            flex-direction: column;
 
-      .visual{
-        padding:28px 22px 20px;
-      }
+            justify-content: center;
+            align-items: center;
 
-      .church-logo{
-        width:62px;
-        height:62px;
-      }
+            text-align: center;
 
-      .app-logo{
-        width:min(90vw,380px);
-        max-height:380px;
-      }
+            padding: 50px 40px;
 
-      .access{
-        padding:36px 25px 30px;
-      }
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(0, 54, 110, 0.75),
+                    rgba(0, 102, 170, 0.50)
+                );
+        }
 
-      .access-content{
-        max-width:520px;
-      }
-    }
 
-    @media(max-width:440px){
-      .portal{width:100%}
+        /* LOGO GEREJA */
 
-      .visual{padding:23px 15px 15px}
+        .church-logo {
+            width: 105px;
+            height: 105px;
 
-      .app-logo{
-        width:92vw;
-        max-height:330px;
-      }
+            object-fit: contain;
 
-      .access{padding:30px 18px 25px}
+            margin-bottom: 25px;
 
-      .features{grid-template-columns:1fr}
+            filter:
+                drop-shadow(0 8px 15px rgba(0,0,0,.3));
+        }
 
-      .feature{padding:10px}
 
-      h1{font-size:32px}
-    }
-  </style>
+        /* LOGO APLIKASI */
+
+        .app-logo {
+            width: min(390px, 85%);
+
+            max-height: 250px;
+
+            object-fit: contain;
+
+            margin-bottom: 25px;
+
+            filter:
+                drop-shadow(0 12px 25px rgba(0,0,0,.35));
+        }
+
+
+        .visual-title {
+            font-size: clamp(20px, 2.2vw, 30px);
+
+            font-weight: 700;
+
+            line-height: 1.25;
+
+            max-width: 480px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .visual-subtitle {
+            font-size: clamp(13px, 1.3vw, 17px);
+
+            line-height: 1.6;
+
+            color: rgba(255,255,255,.85);
+
+            max-width: 480px;
+        }
+
+
+        /* =========================================================
+           RIGHT PANEL
+        ========================================================= */
+
+        .access-panel {
+            background: rgba(255,255,255,.96);
+
+            color: #14385f;
+
+            padding: 55px 50px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            width: fit-content;
+
+            padding: 7px 14px;
+
+            border-radius: 50px;
+
+            background: #eaf3fb;
+
+            color: #075da8;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+
+            margin-bottom: 18px;
+        }
+
+
+        .access-title {
+            font-size: clamp(30px, 3vw, 45px);
+
+            line-height: 1.1;
+
+            margin-bottom: 16px;
+
+            color: #073b70;
+        }
+
+
+        .access-title span {
+            color: #c69a27;
+        }
+
+
+        .description {
+            color: #5b6c7e;
+
+            line-height: 1.7;
+
+            font-size: 15px;
+
+            margin-bottom: 30px;
+
+            max-width: 560px;
+        }
+
+
+        /* =========================================================
+           BUTTON
+        ========================================================= */
+
+        .login-button {
+
+            width: 100%;
+
+            min-height: 58px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 12px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #075da8,
+                    #003b73
+                );
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            letter-spacing: .3px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 25px rgba(0,73,130,.25);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
+
+
+        .login-button:hover {
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 32px rgba(0,73,130,.35);
+        }
+
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+
+        .arrow {
+            font-size: 21px;
+
+            transition: transform .25s ease;
+        }
+
+
+        .login-button:hover .arrow {
+            transform: translateX(5px);
+        }
+
+
+        /* =========================================================
+           FEATURES
+        ========================================================= */
+
+        .features {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-top: 30px;
+        }
+
+
+        .feature {
+
+            padding: 17px 12px;
+
+            border-radius: 14px;
+
+            background: #f4f8fc;
+
+            border: 1px solid #e1ebf4;
+
+            text-align: center;
+        }
+
+
+        .feature-icon {
+
+            width: 35px;
+            height: 35px;
+
+            margin: 0 auto 8px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #e4f0fa;
+
+            color: #075da8;
+
+            font-size: 17px;
+        }
+
+
+        .feature strong {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #17456e;
+
+            margin-bottom: 4px;
+        }
+
+
+        .feature small {
+
+            display: block;
+
+            font-size: 10px;
+
+            color: #7b8997;
+
+            line-height: 1.4;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 35px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #e3e9ee;
+
+            font-size: 11px;
+
+            color: #7b8997;
+
+            line-height: 1.6;
+        }
+
+
+        .footer strong {
+            color: #075da8;
+        }
+
+
+        /* =========================================================
+           TABLET
+           768px - 1024px
+        ========================================================= */
+
+        @media (max-width: 1024px) {
+
+            .page {
+                padding: 30px 20px;
+            }
+
+            .container {
+                max-width: 900px;
+            }
+
+            .visual-panel {
+                min-height: 590px;
+                padding: 40px 25px;
+            }
+
+            .access-panel {
+                padding: 40px 35px;
+            }
+
+            .church-logo {
+                width: 85px;
+                height: 85px;
+            }
+
+            .app-logo {
+                width: 90%;
+            }
+
+            .features {
+                gap: 8px;
+            }
+
+        }
+
+
+        /* =========================================================
+           TABLET PORTRAIT
+           600px - 767px
+        ========================================================= */
+
+        @media (max-width: 767px) {
+
+            .page {
+                padding: 20px 15px;
+                align-items: flex-start;
+            }
+
+
+            .container {
+
+                grid-template-columns: 1fr;
+
+                max-width: 600px;
+
+                border-radius: 22px;
+
+                margin: 10px auto;
+            }
+
+
+            .visual-panel {
+
+                min-height: auto;
+
+                padding:
+                    40px 25px
+                    35px;
+            }
+
+
+            .church-logo {
+
+                width: 75px;
+                height: 75px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .app-logo {
+
+                width: min(320px, 90%);
+
+                margin-bottom: 18px;
+            }
+
+
+            .visual-title {
+                font-size: 22px;
+            }
+
+
+            .visual-subtitle {
+                font-size: 14px;
+            }
+
+
+            .access-panel {
+
+                padding:
+                    35px 25px
+                    30px;
+            }
+
+
+            .access-title {
+                font-size: 32px;
+            }
+
+
+            .description {
+                font-size: 14px;
+            }
+
+
+            .features {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+
+        /* =========================================================
+           HP BESAR
+           481px - 599px
+        ========================================================= */
+
+        @media (max-width: 599px) {
+
+            .page {
+                padding: 12px;
+            }
+
+
+            .container {
+                border-radius: 20px;
+            }
+
+
+            .visual-panel {
+                padding: 32px 20px;
+            }
+
+
+            .access-panel {
+                padding: 30px 20px;
+            }
+
+
+            .features {
+                gap: 7px;
+            }
+
+
+            .feature {
+                padding: 14px 7px;
+            }
+
+
+            .feature strong {
+                font-size: 11px;
+            }
+
+
+            .feature small {
+                font-size: 9px;
+            }
+
+        }
+
+
+        /* =========================================================
+           HP KECIL
+           <= 480px
+        ========================================================= */
+
+        @media (max-width: 480px) {
+
+            .page {
+                padding: 8px;
+            }
+
+
+            .container {
+                border-radius: 18px;
+            }
+
+
+            .visual-panel {
+
+                padding:
+                    28px 15px
+                    25px;
+            }
+
+
+            .church-logo {
+
+                width: 65px;
+                height: 65px;
+
+                margin-bottom: 12px;
+            }
+
+
+            .app-logo {
+
+                width: 92%;
+
+                margin-bottom: 15px;
+            }
+
+
+            .visual-title {
+                font-size: 19px;
+            }
+
+
+            .visual-subtitle {
+                font-size: 12px;
+            }
+
+
+            .access-panel {
+
+                padding:
+                    27px 17px
+                    25px;
+            }
+
+
+            .badge {
+                font-size: 10px;
+                padding: 6px 11px;
+            }
+
+
+            .access-title {
+                font-size: 28px;
+            }
+
+
+            .description {
+
+                font-size: 13px;
+
+                line-height: 1.6;
+
+                margin-bottom: 24px;
+            }
+
+
+            .login-button {
+
+                min-height: 54px;
+
+                font-size: 14px;
+
+                border-radius: 12px;
+            }
+
+
+            .features {
+                margin-top: 24px;
+            }
+
+
+            .feature {
+                padding: 12px 5px;
+
+                border-radius: 11px;
+            }
+
+
+            .feature-icon {
+
+                width: 30px;
+                height: 30px;
+
+                font-size: 14px;
+
+                margin-bottom: 6px;
+            }
+
+
+            .feature strong {
+                font-size: 10px;
+            }
+
+
+            .feature small {
+                display: none;
+            }
+
+
+            .footer {
+
+                margin-top: 25px;
+
+                padding-top: 16px;
+
+                font-size: 10px;
+            }
+
+        }
+
+
+        /* =========================================================
+           HP SANGAT KECIL
+           <= 360px
+        ========================================================= */
+
+        @media (max-width: 360px) {
+
+            .access-title {
+                font-size: 25px;
+            }
+
+
+            .description {
+                font-size: 12px;
+            }
+
+
+            .features {
+                gap: 4px;
+            }
+
+
+            .feature {
+                padding: 10px 3px;
+            }
+
+
+            .feature strong {
+                font-size: 9px;
+            }
+
+        }
+
+
+        /* =========================================================
+           LANDSCAPE HP
+        ========================================================= */
+
+        @media
+        (max-height: 600px)
+        and
+        (orientation: landscape) {
+
+            .page {
+                padding: 15px;
+            }
+
+
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+
+            .visual-panel {
+                min-height: 500px;
+                padding: 25px;
+            }
+
+
+            .access-panel {
+                padding: 25px;
+            }
+
+
+            .church-logo {
+
+                width: 60px;
+                height: 60px;
+
+                margin-bottom: 10px;
+            }
+
+
+            .app-logo {
+                max-height: 150px;
+            }
+
+
+            .visual-title {
+                font-size: 18px;
+            }
+
+
+            .visual-subtitle {
+                font-size: 11px;
+            }
+
+
+            .access-title {
+                font-size: 27px;
+            }
+
+
+            .description {
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+
+
+            .features {
+                margin-top: 15px;
+            }
+
+
+            .footer {
+                margin-top: 15px;
+            }
+
+        }
+
+    </style>
 </head>
+
 
 <body>
 
-  <main class="portal">
+<div class="page">
 
-    <!-- =====================================================
-         PANEL BRAND
-         ===================================================== -->
-    <section class="visual">
-
-      <div class="visual-content">
-
-        <!-- LOGO GEREJA
-             Simpan logo gereja di:
-             assets/logo-gereja.png
-        -->
-        <img
-          class="church-logo"
-          src="assets/logo-gereja.png"
-          alt="Logo GMIT Efata SoE"
-        >
-
-        <div class="church-name">
-          JEMAAT GMIT EFATA SOE
-        </div>
-
-        <!-- LOGO APLIKASI
-             Logo dari desain yang Anda kirim
-        -->
-        <img
-          class="app-logo"
-          src="assets/logo-aplikasi.png"
-          alt="SIMPEL EFATA - Sistem Manajemen Penjadwalan Pelayanan"
-        >
-
-        <div class="gold-line"></div>
-
-      </div>
-
-    </section>
+    <main class="container">
 
 
-    <!-- =====================================================
-         PANEL AKSES
-         ===================================================== -->
-    <section class="access">
+        <!-- =====================================================
+             PANEL KIRI
+        ====================================================== -->
 
-      <div class="access-content">
+        <section class="visual-panel">
 
-        <div class="status">
-          <span class="status-dot"></span>
-          Portal Resmi
-        </div>
+            <!-- Logo Gereja -->
+            <img
+                src="assets/logo-gereja.png"
+                alt="Logo GMIT Efata SoE"
+                class="church-logo"
+            >
 
-        <h1>
-          Selamat Datang
-        </h1>
 
-        <p class="lead">
-          Akses
-          <span class="highlight">SIMPEL EFATA</span>,
-          Sistem Manajemen Penjadwalan Pelayanan
-          Jemaat GMIT Efata SoE.
-        </p>
+            <!-- Logo Aplikasi -->
+            <img
+                src="assets/logo-aplikasi.png"
+                alt="SIMPEL EFATA"
+                class="app-logo"
+            >
 
-        <a
-          class="button"
-          href="https://script.google.com/macros/s/AKfycbyPJY21t-CbnE11Y_E_p86N9q6VG9U1HHOC-uTj4Tb2dzC2n400zHDDUvJ6ZVVFgDNY/exec"
-        >
-          <span>MASUK KE SISTEM</span>
-          <span class="arrow">→</span>
-        </a>
 
-        <div class="features">
+            <h1 class="visual-title">
+                Sistem Manajemen Penjadwalan Pelayanan
+            </h1>
 
-          <div class="feature">
-            <strong>Jadwal</strong>
-            Pelayanan
-          </div>
 
-          <div class="feature">
-            <strong>Manajemen</strong>
-            Data
-          </div>
+            <p class="visual-subtitle">
+                Jemaat GMIT Efata SoE
+            </p>
 
-          <div class="feature">
-            <strong>Laporan</strong>
-            Pelayanan
-          </div>
+        </section>
 
-        </div>
 
-        <div class="footer">
-          <strong>Jemaat GMIT Efata SoE</strong><br>
-          Teratur dalam Pelayanan, Bersatu dalam Melayani.
-        </div>
 
-      </div>
+        <!-- =====================================================
+             PANEL KANAN
+        ====================================================== -->
 
-    </section>
+        <section class="access-panel">
 
-  </main>
+
+            <div class="badge">
+                ● Portal Resmi
+            </div>
+
+
+            <h2 class="access-title">
+                Selamat <span>Datang</span>
+            </h2>
+
+
+            <p class="description">
+
+                Selamat datang di Portal SIMPEL EFATA.
+                Gunakan sistem ini untuk melihat, mengatur,
+                dan mengelola jadwal pelayanan Jemaat
+                GMIT Efata SoE secara teratur dan terintegrasi.
+
+            </p>
+
+
+
+            <!-- =================================================
+                 TOMBOL MASUK
+            ================================================== -->
+
+            <a
+                href="https://script.google.com/macros/s/AKfycbyPJY21t-CbnE11Y_E_p86N9q6VG9U1HHOC-uTj4Tb2dzC2n400zHDDUvJ6ZVVFgDNY/exec"
+                class="login-button"
+                target="_blank"
+                rel="noopener"
+            >
+
+                <span>MASUK KE SISTEM</span>
+
+                <span class="arrow">
+                    →
+                </span>
+
+            </a>
+
+
+
+            <!-- =================================================
+                 FITUR
+            ================================================== -->
+
+            <div class="features">
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        📅
+                    </div>
+
+                    <strong>Jadwal</strong>
+
+                    <small>
+                        Lihat jadwal pelayanan
+                    </small>
+
+                </div>
+
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        ⚙️
+                    </div>
+
+                    <strong>Manajemen</strong>
+
+                    <small>
+                        Kelola jadwal
+                    </small>
+
+                </div>
+
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        📊
+                    </div>
+
+                    <strong>Laporan</strong>
+
+                    <small>
+                        Rekap pelayanan
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer class="footer">
+
+                <strong>SIMPEL EFATA</strong>
+
+                <br>
+
+                Teratur dalam Pelayanan,
+                Bersatu dalam Melayani.
+
+                <br><br>
+
+                © 2026 Jemaat GMIT Efata SoE
+
+            </footer>
+
+
+        </section>
+
+    </main>
+
+</div>
+
 
 </body>
 </html>
